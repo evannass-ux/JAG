@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MapPin, Car, Home, Ruler, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Car, Home, Ruler, ChevronLeft, ChevronRight } from "lucide-react";
 
 // List of images from /public
 const images = [
@@ -33,17 +33,15 @@ const images = [
 ];
 
 function App() {
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const openLightbox = (index) => setSelectedIndex(index);
-  const closeLightbox = () => setSelectedIndex(null);
   const prevImage = () =>
-    setSelectedIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
   const nextImage = () =>
-    setSelectedIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-12 font-sans text-gray-800">
+    <div className="max-w-5xl mx-auto p-6 space-y-12 font-sans text-gray-800">
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold text-blue-700">
@@ -52,15 +50,6 @@ function App() {
         <p className="text-lg text-gray-600">
           Great office/apt building in a prime location on Main Street, Throop PA — just ½ mile from Scranton.
         </p>
-      </div>
-
-      {/* Hero Image */}
-      <div className="w-full h-80 bg-gray-200 rounded-2xl shadow overflow-hidden">
-        <img
-          src={`/${images[0]}`}
-          alt="Exterior"
-          className="w-full h-full object-cover"
-        />
       </div>
 
       {/* Highlights */}
@@ -93,54 +82,26 @@ function App() {
         </div>
       </div>
 
-      {/* Gallery */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold text-blue-600">Photo Gallery</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {images.map((img, idx) => (
-            <div
-              key={idx}
-              className="rounded-lg overflow-hidden shadow cursor-pointer"
-              onClick={() => openLightbox(idx)}
-            >
-              <img
-                src={`/${img}`}
-                alt={`Property ${idx + 1}`}
-                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          ))}
-        </div>
+      {/* Slideshow */}
+      <div className="relative w-full h-96 bg-gray-200 rounded-2xl shadow overflow-hidden flex items-center justify-center">
+        <button
+          onClick={prevImage}
+          className="absolute left-4 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-70"
+        >
+          <ChevronLeft size={32} />
+        </button>
+        <img
+          src={`/${images[currentIndex]}`}
+          alt={`Property ${currentIndex + 1}`}
+          className="w-full h-full object-cover"
+        />
+        <button
+          onClick={nextImage}
+          className="absolute right-4 bg-black bg-opacity-50 p-2 rounded-full text-white hover:bg-opacity-70"
+        >
+          <ChevronRight size={32} />
+        </button>
       </div>
-
-      {/* Lightbox */}
-      {selectedIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-          <button
-            onClick={closeLightbox}
-            className="absolute top-6 right-6 text-white"
-          >
-            <X size={32} />
-          </button>
-          <button
-            onClick={prevImage}
-            className="absolute left-6 text-white"
-          >
-            <ChevronLeft size={48} />
-          </button>
-          <img
-            src={`/${images[selectedIndex]}`}
-            alt={`Property ${selectedIndex + 1}`}
-            className="max-h-[80vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
-          />
-          <button
-            onClick={nextImage}
-            className="absolute right-6 text-white"
-          >
-            <ChevronRight size={48} />
-          </button>
-        </div>
-      )}
 
       {/* Contact Info */}
       <div className="text-center space-y-2 bg-blue-50 rounded-xl p-6 shadow">
