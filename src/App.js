@@ -106,7 +106,7 @@ function App() {
               <img
                 src={`/${img}`}
                 alt={`Property ${idx + 1}`}
-                className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
           ))}
@@ -131,7 +131,7 @@ function App() {
           <img
             src={`/${images[selectedIndex]}`}
             alt={`Property ${selectedIndex + 1}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
+            className="max-h-[80vh] max-w-[90vw] object-contain rounded-lg shadow-lg"
           />
           <button
             onClick={nextImage}
